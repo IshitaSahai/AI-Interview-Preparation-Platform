@@ -155,7 +155,7 @@ async function generatePdfFromHtml(htmlContent) {
     const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath(),
+    executablePath: chromium.executablePath,
     headless: chromium.headless
 });
     const page = await browser.newPage();
@@ -195,7 +195,7 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
                     `
 
     const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-3-flash-preview",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
