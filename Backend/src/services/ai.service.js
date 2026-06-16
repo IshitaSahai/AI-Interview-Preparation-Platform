@@ -153,26 +153,20 @@ return validatedReport;
 
 async function generatePdfFromHtml(htmlContent) {
     const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: chromium.executablePath,
-    headless: chromium.headless
-});
+        args: chromium.args,
+        executablePath: await chromium.executablePath(),
+        headless: true
+    });
+
     const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: "networkidle0" })
+    await page.setContent(htmlContent,{waitUntil:"networkidle0"});
 
     const pdfBuffer = await page.pdf({
-        format: "A4", margin: {
-            top: "20mm",
-            bottom: "20mm",
-            left: "15mm",
-            right: "15mm"
-        }
-    })
+        format:"A4"
+    });
 
-    await browser.close()
-
-    return pdfBuffer
+    await browser.close();
+    return pdfBuffer;
 }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
