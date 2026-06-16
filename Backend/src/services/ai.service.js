@@ -1,7 +1,7 @@
 const {GoogleGenAI}=require("@google/genai")
 const {z}=require("zod")
 const {zodToJsonSchema}=require("zod-to-json-schema")
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const chromium = require("@sparticuz/chromium");
 
 const ai=new GoogleGenAI({
@@ -159,13 +159,23 @@ async function generatePdfFromHtml(htmlContent) {
     });
 
     const page = await browser.newPage();
-    await page.setContent(htmlContent,{waitUntil:"networkidle0"});
+
+    await page.setContent(htmlContent, {
+        waitUntil: "networkidle0"
+    });
 
     const pdfBuffer = await page.pdf({
-        format:"A4"
+        format: "A4",
+        margin: {
+            top: "20mm",
+            bottom: "20mm",
+            left: "15mm",
+            right: "15mm"
+        }
     });
 
     await browser.close();
+
     return pdfBuffer;
 }
 
@@ -189,7 +199,7 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
                     `
 
     const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
