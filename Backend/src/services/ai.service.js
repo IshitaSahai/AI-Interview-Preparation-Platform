@@ -47,7 +47,7 @@ const interviewReportSchema=z.object({
 }).strict();
 
 
-async function generateInterviewReport({resume, selfdescription, jobdescription}) {
+async function generateInterviewReport({resume, selfDescription, jobDescription}) {
 
     // const prompt=`Generate an interview report for the candidate with the following details:
     //             Resume:${resume}
@@ -60,10 +60,10 @@ Resume:
 ${resume}
 
 Self Description:
-${selfdescription}
+${selfDescription}
 
 Job Description:
-${jobdescription}
+${jobDescription}
 
 Return ONLY a JSON object matching the provided schema.
 
