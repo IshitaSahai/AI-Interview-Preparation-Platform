@@ -152,12 +152,13 @@ return validatedReport;
 }
 
 async function generatePdfFromHtml(htmlContent) {
+  console.log(chromium);
     const browser = await puppeteer.launch({
-        args: chromium.args,
-        executablePath: await chromium.executablePath(),
-        headless: true
-    });
-
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath(),
+    headless: true,
+});
     const page = await browser.newPage();
 
     await page.setContent(htmlContent, {
