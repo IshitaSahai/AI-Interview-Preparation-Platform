@@ -151,7 +151,6 @@ const validatedReport =
 return validatedReport;
 }
 async function generatePdfFromHtml(htmlContent) {
-  console.log("Chrome path:", await chromium.executablePath());
 
   const browser = await puppeteer.launch({
     args: chromium.args,
