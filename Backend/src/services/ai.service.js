@@ -150,33 +150,34 @@ const validatedReport =
 
 return validatedReport;
 }
+async function generatePdfFromHtml(htmlContent) {
+  console.log("Chrome path:", await chromium.executablePath());
 
-const browser = await puppeteer.launch({
-  args: chromium.args,
-  executablePath:
-    process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath(),
-  headless: true,
-});
+  const browser = await puppeteer.launch({
+    args: chromium.args,
+    executablePath:
+      process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath(),
+    headless: true,
+  });
 
-    const page = await browser.newPage();
+  const page = await browser.newPage();
 
-    await page.setContent(htmlContent, {
-        waitUntil: "networkidle0"
-    });
+  await page.setContent(htmlContent, {
+    waitUntil: "networkidle0",
+  });
 
-    const pdfBuffer = await page.pdf({
-        format: "A4",
-        margin: {
-            top: "20mm",
-            bottom: "20mm",
-            left: "15mm",
-            right: "15mm"
-        }
-    });
+  const pdfBuffer = await page.pdf({
+    format: "A4",
+    margin: {
+      top: "20mm",
+      bottom: "20mm",
+      left: "15mm",
+      right: "15mm",
+    },
+  });
 
-    await browser.close();
-
-    return pdfBuffer;
+  await browser.close();
+  return pdfBuffer;
 }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
